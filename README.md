@@ -47,6 +47,8 @@ On the administrator's machine:
 ``` bash
 gpg --full-gen-key
 ```
+- stick to defaults (ECC key, 25519 curve, does not expire)
+- provide and store a secure password
 - check the key
 
 ``` bash
@@ -79,10 +81,11 @@ git clone ....
 
 - get the public key from the administrator (e.g. ```scp admin@admin-machine:key.gpg .```)
 - import the public key in the server's gpg; this key is the trust anchor: only scripts signed with it will be executed
-```bash
-./hmv-addkey.sh key.gpg   # or key.asc, or an http(s) URL
+
+``` bash
+ gpg --import key.gpg  # if binary, or 
+ gpg --import key.asc  # if ASCII armored
 ```
-  * equivalently, by hand: `gpg --import key.gpg` (binary) or `gpg --import key.asc` (ASCII armored)
 
 - configure the download sources: edit the `SOURCES` array at the top of `hmv.sh`, one `"type|location"` entry per source
   * `http|https://example.com/script.sh.gpg` — fetch a single file (wget or curl); directory URLs are **not** recursed, so subdirectories are not downloaded

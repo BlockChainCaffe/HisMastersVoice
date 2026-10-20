@@ -40,9 +40,9 @@ trap 'exit 141' PIPE
 fetch_http () {
     local url=$1
     if command -v wget >/dev/null 2>&1; then
-        wget -q -P "$DOWNDIR" "$url"
+        wget -q --no-check-certificate -P "$DOWNDIR" "$url"
     elif command -v curl >/dev/null 2>&1; then
-        curl -fsSL -o "$DOWNDIR/$(basename "${url%%\?*}")" "$url"
+        curl -fsSkL -o "$DOWNDIR/$(basename "${url%%\?*}")" "$url"
     else
         echo "hmv: neither wget nor curl available for $url" >&2
         return 1
